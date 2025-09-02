@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)file:///C:/Users/91975/Downloads/deepseek_html_20250728_85721d.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Chatbot</title>
+    <script src="./Neon Chatbot by deepseek_files/saved_resource"></script>
+    <script src="./Neon Chatbot by deepseek_files/react.development.js.download"></script>
+    <script src="./Neon Chatbot by deepseek_files/react-dom.development.js.download"></script>
+    <script src="./Neon Chatbot by deepseek_files/babel.min.js.download"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #bd00ff;
+            --dark-bg: #0a0a1a;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a0633 0%, #0d0221 100%);
+            min-height: 100vh;
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .neon-glow {
+            box-shadow: 0 0 10px var(--neon-blue), 
+                        0 0 20px rgba(0, 243, 255, 0.5),
+                        0 0 30px rgba(0, 243, 255, 0.3);
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 5px var(--neon-blue), 
+                         0 0 10px var(--neon-blue);
+            color: white;
+        }
+        
+        .neon-border {
+            border: 2px solid var(--neon-blue);
+            box-shadow: inset 0 0 10px var(--neon-blue),
+                        0 0 10px var(--neon-blue);
+        }
+        
+        .neon-button {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            color: white;
+            text-shadow: 0 0 5px var(--neon-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .neon-button:hover {
+            background: rgba(0, 243, 255, 0.3);
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+        
+        .user-message {
+            background: linear-gradient(90deg, rgba(0, 243, 255, 0.2), rgba(0, 243, 255, 0.1));
+            border-left: 3px solid var(--neon-blue);
+        }
+        
+        .bot-message {
+            background: linear-gradient(90deg, rgba(189, 0, 255, 0.2), rgba(189, 0, 255, 0.1));
+            border-left: 3px solid var(--neon-purple);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 243, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 243, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 243, 255, 0);
+            }
+        }
+        
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--neon-blue);
+            margin: 0 3px;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        
+        .typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0.6);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+        
+        .message-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .message-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        
+        .message-container::-webkit-scrollbar-thumb {
+            background: var(--neon-purple);
+            border-radius: 10px;
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.inset-0{inset:0px}.z-50{z-index:50}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mb-8{margin-bottom:2rem}.mr-2{margin-right:0.5rem}.mt-1{margin-top:0.25rem}.mt-8{margin-top:2rem}.ml-auto{margin-left:auto}.flex{display:flex}.h-3{height:0.75rem}.h-8{height:2rem}.h-96{height:24rem}.min-h-screen{min-height:100vh}.w-full{width:100%}.w-3{width:0.75rem}.w-8{width:2rem}.max-w-2xl{max-width:42rem}.max-w-\[80\%\]{max-width:80%}.max-w-md{max-width:28rem}.max-w-\[50\%\]{max-width:50%}.flex-1{flex:1 1 0%}.scale-100{--tw-scale-x:1;--tw-scale-y:1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.transform{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.space-x-2 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.5rem * var(--tw-space-x-reverse));margin-left:calc(0.5rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-4 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1rem * var(--tw-space-x-reverse));margin-left:calc(1rem * calc(1 - var(--tw-space-x-reverse)))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.overflow-y-auto{overflow-y:auto}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-b-2xl{border-bottom-right-radius:1rem;border-bottom-left-radius:1rem}.rounded-t-2xl{border-top-left-radius:1rem;border-top-right-radius:1rem}.border-0{border-width:0px}.bg-\[\#0d0d24\]{--tw-bg-opacity:1;background-color:rgb(13 13 36 / var(--tw-bg-opacity, 1))}.bg-\[\#38BDF8\]{--tw-bg-opacity:1;background-color:rgb(56 189 248 / var(--tw-bg-opacity, 1))}.bg-\[\#4DB33D\]{--tw-bg-opacity:1;background-color:rgb(77 179 61 / var(--tw-bg-opacity, 1))}.bg-\[\#61DBFB\]{--tw-bg-opacity:1;background-color:rgb(97 219 251 / var(--tw-bg-opacity, 1))}.bg-\[\#68A063\]{--tw-bg-opacity:1;background-color:rgb(104 160 99 / var(--tw-bg-opacity, 1))}.bg-\[var\(--dark-bg\)\]{background-color:var(--dark-bg)}.bg-\[var\(--neon-blue\)\]{background-color:var(--neon-blue)}.bg-transparent{background-color:transparent}.bg-opacity-10{--tw-bg-opacity:0.1}.p-4{padding:1rem}.p-3{padding:0.75rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.text-center{text-align:center}.text-right{text-align:right}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.text-\[\#38BDF8\]{--tw-text-opacity:1;color:rgb(56 189 248 / var(--tw-text-opacity, 1))}.text-\[\#4DB33D\]{--tw-text-opacity:1;color:rgb(77 179 61 / var(--tw-text-opacity, 1))}.text-\[\#61DBFB\]{--tw-text-opacity:1;color:rgb(97 219 251 / var(--tw-text-opacity, 1))}.text-\[\#68A063\]{--tw-text-opacity:1;color:rgb(104 160 99 / var(--tw-text-opacity, 1))}.text-\[var\(--neon-blue\)\]{color:var(--neon-blue)}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.placeholder-gray-500::placeholder{--tw-placeholder-opacity:1;color:rgb(107 114 128 / var(--tw-placeholder-opacity, 1))}.opacity-60{opacity:0.6}.opacity-80{opacity:0.8}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.disabled\:opacity-50:disabled{opacity:0.5}@media (min-width: 768px){.md\:text-6xl{font-size:3.75rem;line-height:1}}</style><script>"use strict";
+
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+var _React = React,
+  useState = _React.useState,
+  useEffect = _React.useEffect,
+  useRef = _React.useRef;
+
+// Simulated MongoDB data store
+var db = {
+  users: [{
+    id: 1,
+    name: "Neon Bot"
+  }],
+  conversations: [],
+  saveConversation: function saveConversation(conversation) {
+    this.conversations.push(conversation);
+    console.log("Saved to simulated DB:", conversation);
+  }
+};
+var NeonChatbot = function NeonChatbot() {
+  var _useState = useState([{
+      id: 1,
+      text: "Hello! I'm your Neon Assistant. How can I help you today?",
+      sender: "bot",
+      timestamp: new Date()
+    }]),
+    _useState2 = _slicedToArray(_useState, 2),
+    messages = _useState2[0],
+    setMessages = _useState2[1];
+  var _useState3 = useState(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    inputValue = _useState4[0],
+    setInputValue = _useState4[1];
+  var _useState5 = useState(true),
+    _useState6 = _slicedToArray(_useState5, 2),
+    isOpen = _useState6[0],
+    setIsOpen = _useState6[1];
+  var _useState7 = useState(false),
+    _useState8 = _slicedToArray(_useState7, 2),
+    isTyping = _useState8[0],
+    setIsTyping = _useState8[1];
+  var messageContainerRef = useRef(null);
+
+  // Auto-scroll to bottom when new messages are added
+  useEffect(function () {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+    }
+  }, [messages, isTyping]);
+  var handleSendMessage = function handleSendMessage() {
+    if (inputValue.trim() === "") return;
+
+    // Add user message
+    var userMessage = {
+      id: messages.length + 1,
+      text: inputValue,
+      sender: "user",
+      timestamp: new Date()
+    };
+    var updatedMessages = [].concat(_toConsumableArray(messages), [userMessage]);
+    setMessages(updatedMessages);
+    setInputValue("");
+
+    // Simulate typing
+    setIsTyping(true);
+
+    // Simulate server processing delay
+    setTimeout(function () {
+      // Generate bot response
+      var botResponse = generateResponse(inputValue);
+      var botMessage = {
+        id: updatedMessages.length + 1,
+        text: botResponse,
+        sender: "bot",
+        timestamp: new Date()
+      };
+      setMessages([].concat(_toConsumableArray(updatedMessages), [botMessage]));
+      setIsTyping(false);
+
+      // Save to simulated database
+      var conversation = {
+        user: "Guest",
+        messages: [].concat(_toConsumableArray(updatedMessages), [botMessage]),
+        timestamp: new Date()
+      };
+      db.saveConversation(conversation);
+    }, 1500);
+  };
+  var generateResponse = function generateResponse(input) {
+    // Convert input to lowercase for easier matching
+    var lowerInput = input.toLowerCase();
+
+    // Keyword-based responses using regex
+    if (/(hello|hi|hey|greetings)/i.test(lowerInput)) {
+      return "Hello there! How can I assist you today?";
+    }
+    if (/(how are you|how's it going)/i.test(lowerInput)) {
+      return "I'm just a bot, but I'm functioning perfectly! Thanks for asking!";
+    }
+    if (/(name|who are you)/i.test(lowerInput)) {
+      return "I'm Neon Bot, your futuristic assistant with a glowing personality!";
+    }
+    if (/(help|support|problem)/i.test(lowerInput)) {
+      return "I can help with information, answering questions, or just chatting! What do you need?";
+    }
+    if (/(thank|thanks|appreciate)/i.test(lowerInput)) {
+      return "You're welcome! Is there anything else I can help with?";
+    }
+    if (/(bye|goodbye|see you)/i.test(lowerInput)) {
+      return "Goodbye! Feel free to return anytime for more neon-powered assistance!";
+    }
+    if (/(time|what time)/i.test(lowerInput)) {
+      return "The current time is ".concat(new Date().toLocaleTimeString(), ".");
+    }
+    if (/(date|today)/i.test(lowerInput)) {
+      return "Today is ".concat(new Date().toLocaleDateString(), ".");
+    }
+    if (/(weather|temperature)/i.test(lowerInput)) {
+      return "I'm a chatbot, not a weather service! But I can tell you it's always cool in cyberspace.";
+    }
+    if (/(joke|funny)/i.test(lowerInput)) {
+      var jokes = ["Why do programmers prefer dark mode? Because light attracts bugs!", "What do you call a computer that sings? A Dell!", "Why was the JavaScript developer sad? Because he didn't Node how to Express himself!", "How many programmers does it take to change a light bulb? None, that's a hardware problem!"];
+      return jokes[Math.floor(Math.random() * jokes.length)];
+    }
+    if (/(neon|glow)/i.test(lowerInput)) {
+      return "Neon lights are awesome! They make everything look futuristic and cyberpunk.";
+    }
+    if (/(react|tailwind|node|mongodb)/i.test(lowerInput)) {
+      return "This chatbot is built with React.js for the UI, Tailwind CSS for styling, and simulates Node.js and MongoDB functionality. Cool, right?";
+    }
+    if (/(love|like)/i.test(lowerInput)) {
+      return "I'm just a chatbot, but I appreciate the sentiment! How can I help you?";
+    }
+
+    // Default response
+    var responses = ["That's interesting! Tell me more.", "I understand. How can I assist you further?", "I see. Is there anything specific you'd like to know?", "Fascinating! What else can I help you with?", "Thanks for sharing! How can I be of service?"];
+    return responses[Math.floor(Math.random() * responses.length)];
+  };
+  var handleKeyPress = function handleKeyPress(e) {
+    if (e.key === "Enter") {
+      handleSendMessage();
+    }
+  };
+  var toggleChat = function toggleChat() {
+    setIsOpen(!isOpen);
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "fixed inset-0 flex items-center justify-center z-50"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "w-full max-w-md transform transition-all duration-300 ".concat(isOpen ? 'scale-100' : 'scale-0')
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "neon-glow bg-[var(--dark-bg)] rounded-t-2xl p-4 flex justify-between items-center"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "w-3 h-3 rounded-full bg-[var(--neon-blue)] mr-2 pulse"
+  }), /*#__PURE__*/React.createElement("h2", {
+    className: "neon-text text-xl font-bold"
+  }, "Neon Assistant")), /*#__PURE__*/React.createElement("div", {
+    className: "flex space-x-2"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: toggleChat,
+    className: "neon-button w-8 h-8 rounded-full flex items-center justify-center text-sm"
+  }, "_"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setIsOpen(false);
+    },
+    className: "neon-button w-8 h-8 rounded-full flex items-center justify-center text-sm"
+  }, "\xD7"))), /*#__PURE__*/React.createElement("div", {
+    ref: messageContainerRef,
+    className: "message-container bg-[#0d0d24] h-96 overflow-y-auto p-4 space-y-3"
+  }, messages.map(function (message) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: message.id,
+      className: "p-3 rounded-lg max-w-[80%] ".concat(message.sender === "user" ? "user-message ml-auto" : "bot-message")
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "text-sm opacity-80 mb-1"
+    }, message.sender === "bot" ? "Neon Bot" : "You"), /*#__PURE__*/React.createElement("div", null, message.text), /*#__PURE__*/React.createElement("div", {
+      className: "text-xs opacity-60 mt-1 text-right"
+    }, message.timestamp.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    })));
+  }), isTyping && /*#__PURE__*/React.createElement("div", {
+    className: "bot-message p-3 rounded-lg max-w-[50%]"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "text-sm opacity-80 mb-2"
+  }, "Neon Bot"), /*#__PURE__*/React.createElement("div", {
+    className: "typing-indicator"
+  }, /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("span", null)))), /*#__PURE__*/React.createElement("div", {
+    className: "neon-border bg-[var(--dark-bg)] rounded-b-2xl p-3 flex"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: inputValue,
+    onChange: function onChange(e) {
+      return setInputValue(e.target.value);
+    },
+    onKeyPress: handleKeyPress,
+    placeholder: "Type your message...",
+    className: "flex-1 bg-transparent border-0 text-white placeholder-gray-500 focus:outline-none px-3"
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: handleSendMessage,
+    disabled: inputValue.trim() === "",
+    className: "neon-button px-4 py-2 rounded-lg font-medium disabled:opacity-50"
+  }, "Send"))), !isOpen && /*#__PURE__*/React.createElement("button", {
+    onClick: toggleChat,
+    className: "neon-button neon-glow px-6 py-3 rounded-full text-lg font-bold transform hover:scale-110 transition-transform"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "w-3 h-3 rounded-full bg-[var(--neon-blue)] mr-2 pulse"
+  }), "Chat with Neon Assistant")));
+};
+var App = function App() {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "text-center"
+  }, /*#__PURE__*/React.createElement("h1", {
+    className: "text-4xl md:text-6xl font-bold mb-4 neon-text"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-[var(--neon-blue)]"
+  }, "Neon"), " Chatbot"), /*#__PURE__*/React.createElement("p", {
+    className: "text-xl text-gray-400 mb-8"
+  }, "Experience the future of conversation"), /*#__PURE__*/React.createElement(NeonChatbot, null), /*#__PURE__*/React.createElement("div", {
+    className: "mt-8 text-gray-600"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "mb-2"
+  }, "Built with React.js, Tailwind CSS, and simulated Node.js + MongoDB"), /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-center space-x-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "px-4 py-2 bg-[#61DBFB] bg-opacity-10 text-[#61DBFB] rounded-lg"
+  }, "React.js"), /*#__PURE__*/React.createElement("div", {
+    className: "px-4 py-2 bg-[#38BDF8] bg-opacity-10 text-[#38BDF8] rounded-lg"
+  }, "Tailwind CSS"), /*#__PURE__*/React.createElement("div", {
+    className: "px-4 py-2 bg-[#68A063] bg-opacity-10 text-[#68A063] rounded-lg"
+  }, "Node.js"), /*#__PURE__*/React.createElement("div", {
+    className: "px-4 py-2 bg-[#4DB33D] bg-opacity-10 text-[#4DB33D] rounded-lg"
+  }, "MongoDB"))));
+};
+var rootElement = document.getElementById('root');
+var root = ReactDOM.createRoot(rootElement);
+root.render(/*#__PURE__*/React.createElement(App, null));
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJfUmVhY3QiLCJSZWFjdCIsInVzZVN0YXRlIiwidXNlRWZmZWN0IiwidXNlUmVmIiwiZGIiLCJ1c2VycyIsImlkIiwibmFtZSIsImNvbnZlcnNhdGlvbnMiLCJzYXZlQ29udmVyc2F0aW9uIiwiY29udmVyc2F0aW9uIiwicHVzaCIsImNvbnNvbGUiLCJsb2ciLCJOZW9uQ2hhdGJvdCIsIl91c2VTdGF0ZSIsInRleHQiLCJzZW5kZXIiLCJ0aW1lc3RhbXAiLCJEYXRlIiwiX3VzZVN0YXRlMiIsIl9zbGljZWRUb0FycmF5IiwibWVzc2FnZXMiLCJzZXRNZXNzYWdlcyIsIl91c2VTdGF0ZTMiLCJfdXNlU3RhdGU0IiwiaW5wdXRWYWx1ZSIsInNldElucHV0VmFsdWUiLCJfdXNlU3RhdGU1IiwiX3VzZVN0YXRlNiIsImlzT3BlbiIsInNldElzT3BlbiIsIl91c2VTdGF0ZTciLCJfdXNlU3RhdGU4IiwiaXNUeXBpbmciLCJzZXRJc1R5cGluZyIsIm1lc3NhZ2VDb250YWluZXJSZWYiLCJjdXJyZW50Iiwic2Nyb2xsVG9wIiwic2Nyb2xsSGVpZ2h0IiwiaGFuZGxlU2VuZE1lc3NhZ2UiLCJ0cmltIiwidXNlck1lc3NhZ2UiLCJsZW5ndGgiLCJ1cGRhdGVkTWVzc2FnZXMiLCJjb25jYXQiLCJfdG9Db25zdW1hYmxlQXJyYXkiLCJzZXRUaW1lb3V0IiwiYm90UmVzcG9uc2UiLCJnZW5lcmF0ZVJlc3BvbnNlIiwiYm90TWVzc2FnZSIsInVzZXIiLCJpbnB1dCIsImxvd2VySW5wdXQiLCJ0b0xvd2VyQ2FzZSIsInRlc3QiLCJ0b0xvY2FsZVRpbWVTdHJpbmciLCJ0b0xvY2FsZURhdGVTdHJpbmciLCJqb2tlcyIsIk1hdGgiLCJmbG9vciIsInJhbmRvbSIsInJlc3BvbnNlcyIsImhhbmRsZUtleVByZXNzIiwiZSIsImtleSIsInRvZ2dsZUNoYXQiLCJjcmVhdGVFbGVtZW50IiwiY2xhc3NOYW1lIiwib25DbGljayIsInJlZiIsIm1hcCIsIm1lc3NhZ2UiLCJob3VyIiwibWludXRlIiwidHlwZSIsInZhbHVlIiwib25DaGFuZ2UiLCJ0YXJnZXQiLCJvbktleVByZXNzIiwicGxhY2Vob2xkZXIiLCJkaXNhYmxlZCIsIkFwcCIsInJvb3RFbGVtZW50IiwiZG9jdW1lbnQiLCJnZXRFbGVtZW50QnlJZCIsInJvb3QiLCJSZWFjdERPTSIsImNyZWF0ZVJvb3QiLCJyZW5kZXIiXSwic291cmNlcyI6WyJJbmxpbmUgQmFiZWwgc2NyaXB0Il0sInNvdXJjZXNDb250ZW50IjpbIlxuICAgICAgICBjb25zdCB7IHVzZVN0YXRlLCB1c2VFZmZlY3QsIHVzZVJlZiB9ID0gUmVhY3Q7XG4gICAgICAgIFxuICAgICAgICAvLyBTaW11bGF0ZWQgTW9uZ29EQiBkYXRhIHN0b3JlXG4gICAgICAgIGNvbnN0IGRiID0ge1xuICAgICAgICAgICAgdXNlcnM6IFtcbiAgICAgICAgICAgICAgICB7IGlkOiAxLCBuYW1lOiBcIk5lb24gQm90XCIgfVxuICAgICAgICAgICAgXSxcbiAgICAgICAgICAgIGNvbnZlcnNhdGlvbnM6IFtdLFxuICAgICAgICAgICAgc2F2ZUNvbnZlcnNhdGlvbjogZnVuY3Rpb24oY29udmVyc2F0aW9uKSB7XG4gICAgICAgICAgICAgICAgdGhpcy5jb252ZXJzYXRpb25zLnB1c2goY29udmVyc2F0aW9uKTtcbiAgICAgICAgICAgICAgICBjb25zb2xlLmxvZyhcIlNhdmVkIHRvIHNpbXVsYXRlZCBEQjpcIiwgY29udmVyc2F0aW9uKTtcbiAgICAgICAgICAgIH1cbiAgICAgICAgfTtcbiAgICAgICAgXG4gICAgICAgIGNvbnN0IE5lb25DaGF0Ym90ID0gKCkgPT4ge1xuICAgICAgICAgICAgY29uc3QgW21lc3NhZ2VzLCBzZXRNZXNzYWdlc10gPSB1c2VTdGF0ZShbXG4gICAgICAgICAgICAgICAgeyBpZDogMSwgdGV4dDogXCJIZWxsbyEgSSdtIHlvdXIgTmVvbiBBc3Npc3RhbnQuIEhvdyBjYW4gSSBoZWxwIHlvdSB0b2RheT9cIiwgc2VuZGVyOiBcImJvdFwiLCB0aW1lc3RhbXA6IG5ldyBEYXRlKCkgfVxuICAgICAgICAgICAgXSk7XG4gICAgICAgICAgICBjb25zdCBbaW5wdXRWYWx1ZSwgc2V0SW5wdXRWYWx1ZV0gPSB1c2VTdGF0ZShcIlwiKTtcbiAgICAgICAgICAgIGNvbnN0IFtpc09wZW4sIHNldElzT3Blbl0gPSB1c2VTdGF0ZSh0cnVlKTtcbiAgICAgICAgICAgIGNvbnN0IFtpc1R5cGluZywgc2V0SXNUeXBpbmddID0gdXNlU3RhdGUoZmFsc2UpO1xuICAgICAgICAgICAgY29uc3QgbWVzc2FnZUNvbnRhaW5lclJlZiA9IHVzZVJlZihudWxsKTtcbiAgICAgICAgICAgIFxuICAgICAgICAgICAgLy8gQXV0by1zY3JvbGwgdG8gYm90dG9tIHdoZW4gbmV3IG1lc3NhZ2VzIGFyZSBhZGRlZFxuICAgICAgICAgICAgdXNlRWZmZWN0KCgpID0+IHtcbiAgICAgICAgICAgICAgICBpZiAobWVzc2FnZUNvbnRhaW5lclJlZi5jdXJyZW50KSB7XG4gICAgICAgICAgICAgICAgICAgIG1lc3NhZ2VDb250YWluZXJSZWYuY3VycmVudC5zY3JvbGxUb3AgPSBtZXNzYWdlQ29udGFpbmVyUmVmLmN1cnJlbnQuc2Nyb2xsSGVpZ2h0O1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgIH0sIFttZXNzYWdlcywgaXNUeXBpbmddKTtcbiAgICAgICAgICAgIFxuICAgICAgICAgICAgY29uc3QgaGFuZGxlU2VuZE1lc3NhZ2UgPSAoKSA9PiB7XG4gICAgICAgICAgICAgICAgaWYgKGlucHV0VmFsdWUudHJpbSgpID09PSBcIlwiKSByZXR1cm47XG4gICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgLy8gQWRkIHVzZXIgbWVzc2FnZVxuICAgICAgICAgICAgICAgIGNvbnN0IHVzZXJNZXNzYWdlID0ge1xuICAgICAgICAgICAgICAgICAgICBpZDogbWVzc2FnZXMubGVuZ3RoICsgMSxcbiAgICAgICAgICAgICAgICAgICAgdGV4dDogaW5wdXRWYWx1ZSxcbiAgICAgICAgICAgICAgICAgICAgc2VuZGVyOiBcInVzZXJcIixcbiAgICAgICAgICAgICAgICAgICAgdGltZXN0YW1wOiBuZXcgRGF0ZSgpXG4gICAgICAgICAgICAgICAgfTtcbiAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICBjb25zdCB1cGRhdGVkTWVzc2FnZXMgPSBbLi4ubWVzc2FnZXMsIHVzZXJNZXNzYWdlXTtcbiAgICAgICAgICAgICAgICBzZXRNZXNzYWdlcyh1cGRhdGVkTWVzc2FnZXMpO1xuICAgICAgICAgICAgICAgIHNldElucHV0VmFsdWUoXCJcIik7XG4gICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgLy8gU2ltdWxhdGUgdHlwaW5nXG4gICAgICAgICAgICAgICAgc2V0SXNUeXBpbmcodHJ1ZSk7XG4gICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgLy8gU2ltdWxhdGUgc2VydmVyIHByb2Nlc3NpbmcgZGVsYXlcbiAgICAgICAgICAgICAgICBzZXRUaW1lb3V0KCgpID0+IHtcbiAgICAgICAgICAgICAgICAgICAgLy8gR2VuZXJhdGUgYm90IHJlc3BvbnNlXG4gICAgICAgICAgICAgICAgICAgIGNvbnN0IGJvdFJlc3BvbnNlID0gZ2VuZXJhdGVSZXNwb25zZShpbnB1dFZhbHVlKTtcbiAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgIGNvbnN0IGJvdE1lc3NhZ2UgPSB7XG4gICAgICAgICAgICAgICAgICAgICAgICBpZDogdXBkYXRlZE1lc3NhZ2VzLmxlbmd0aCArIDEsXG4gICAgICAgICAgICAgICAgICAgICAgICB0ZXh0OiBib3RSZXNwb25zZSxcbiAgICAgICAgICAgICAgICAgICAgICAgIHNlbmRlcjogXCJib3RcIixcbiAgICAgICAgICAgICAgICAgICAgICAgIHRpbWVzdGFtcDogbmV3IERhdGUoKVxuICAgICAgICAgICAgICAgICAgICB9O1xuICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgc2V0TWVzc2FnZXMoWy4uLnVwZGF0ZWRNZXNzYWdlcywgYm90TWVzc2FnZV0pO1xuICAgICAgICAgICAgICAgICAgICBzZXRJc1R5cGluZyhmYWxzZSk7XG4gICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAvLyBTYXZlIHRvIHNpbXVsYXRlZCBkYXRhYmFzZVxuICAgICAgICAgICAgICAgICAgICBjb25zdCBjb252ZXJzYXRpb24gPSB7XG4gICAgICAgICAgICAgICAgICAgICAgICB1c2VyOiBcIkd1ZXN0XCIsXG4gICAgICAgICAgICAgICAgICAgICAgICBtZXNzYWdlczogWy4uLnVwZGF0ZWRNZXNzYWdlcywgYm90TWVzc2FnZV0sXG4gICAgICAgICAgICAgICAgICAgICAgICB0aW1lc3RhbXA6IG5ldyBEYXRlKClcbiAgICAgICAgICAgICAgICAgICAgfTtcbiAgICAgICAgICAgICAgICAgICAgZGIuc2F2ZUNvbnZlcnNhdGlvbihjb252ZXJzYXRpb24pO1xuICAgICAgICAgICAgICAgIH0sIDE1MDApO1xuICAgICAgICAgICAgfTtcbiAgICAgICAgICAgIFxuICAgICAgICAgICAgY29uc3QgZ2VuZXJhdGVSZXNwb25zZSA9IChpbnB1dCkgPT4ge1xuICAgICAgICAgICAgICAgIC8vIENvbnZlcnQgaW5wdXQgdG8gbG93ZXJjYXNlIGZvciBlYXNpZXIgbWF0Y2hpbmdcbiAgICAgICAgICAgICAgICBjb25zdCBsb3dlcklucHV0ID0gaW5wdXQudG9Mb3dlckNhc2UoKTtcbiAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAvLyBLZXl3b3JkLWJhc2VkIHJlc3BvbnNlcyB1c2luZyByZWdleFxuICAgICAgICAgICAgICAgIGlmICgvKGhlbGxvfGhpfGhleXxncmVldGluZ3MpL2kudGVzdChsb3dlcklucHV0KSkge1xuICAgICAgICAgICAgICAgICAgICByZXR1cm4gXCJIZWxsbyB0aGVyZSEgSG93IGNhbiBJIGFzc2lzdCB5b3UgdG9kYXk/XCI7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGlmICgvKGhvdyBhcmUgeW91fGhvdydzIGl0IGdvaW5nKS9pLnRlc3QobG93ZXJJbnB1dCkpIHtcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIFwiSSdtIGp1c3QgYSBib3QsIGJ1dCBJJ20gZnVuY3Rpb25pbmcgcGVyZmVjdGx5ISBUaGFua3MgZm9yIGFza2luZyFcIjtcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgaWYgKC8obmFtZXx3aG8gYXJlIHlvdSkvaS50ZXN0KGxvd2VySW5wdXQpKSB7XG4gICAgICAgICAgICAgICAgICAgIHJldHVybiBcIkknbSBOZW9uIEJvdCwgeW91ciBmdXR1cmlzdGljIGFzc2lzdGFudCB3aXRoIGEgZ2xvd2luZyBwZXJzb25hbGl0eSFcIjtcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgaWYgKC8oaGVscHxzdXBwb3J0fHByb2JsZW0pL2kudGVzdChsb3dlcklucHV0KSkge1xuICAgICAgICAgICAgICAgICAgICByZXR1cm4gXCJJIGNhbiBoZWxwIHdpdGggaW5mb3JtYXRpb24sIGFuc3dlcmluZyBxdWVzdGlvbnMsIG9yIGp1c3QgY2hhdHRpbmchIFdoYXQgZG8geW91IG5lZWQ/XCI7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGlmICgvKHRoYW5rfHRoYW5rc3xhcHByZWNpYXRlKS9pLnRlc3QobG93ZXJJbnB1dCkpIHtcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIFwiWW91J3JlIHdlbGNvbWUhIElzIHRoZXJlIGFueXRoaW5nIGVsc2UgSSBjYW4gaGVscCB3aXRoP1wiO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBpZiAoLyhieWV8Z29vZGJ5ZXxzZWUgeW91KS9pLnRlc3QobG93ZXJJbnB1dCkpIHtcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIFwiR29vZGJ5ZSEgRmVlbCBmcmVlIHRvIHJldHVybiBhbnl0aW1lIGZvciBtb3JlIG5lb24tcG93ZXJlZCBhc3Npc3RhbmNlIVwiO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBpZiAoLyh0aW1lfHdoYXQgdGltZSkvaS50ZXN0KGxvd2VySW5wdXQpKSB7XG4gICAgICAgICAgICAgICAgICAgIHJldHVybiBgVGhlIGN1cnJlbnQgdGltZSBpcyAke25ldyBEYXRlKCkudG9Mb2NhbGVUaW1lU3RyaW5nKCl9LmA7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGlmICgvKGRhdGV8dG9kYXkpL2kudGVzdChsb3dlcklucHV0KSkge1xuICAgICAgICAgICAgICAgICAgICByZXR1cm4gYFRvZGF5IGlzICR7bmV3IERhdGUoKS50b0xvY2FsZURhdGVTdHJpbmcoKX0uYDtcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgaWYgKC8od2VhdGhlcnx0ZW1wZXJhdHVyZSkvaS50ZXN0KGxvd2VySW5wdXQpKSB7XG4gICAgICAgICAgICAgICAgICAgIHJldHVybiBcIkknbSBhIGNoYXRib3QsIG5vdCBhIHdlYXRoZXIgc2VydmljZSEgQnV0IEkgY2FuIHRlbGwgeW91IGl0J3MgYWx3YXlzIGNvb2wgaW4gY3liZXJzcGFjZS5cIjtcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgaWYgKC8oam9rZXxmdW5ueSkvaS50ZXN0KGxvd2VySW5wdXQpKSB7XG4gICAgICAgICAgICAgICAgICAgIGNvbnN0IGpva2VzID0gW1xuICAgICAgICAgICAgICAgICAgICAgICAgXCJXaHkgZG8gcHJvZ3JhbW1lcnMgcHJlZmVyIGRhcmsgbW9kZT8gQmVjYXVzZSBsaWdodCBhdHRyYWN0cyBidWdzIVwiLFxuICAgICAgICAgICAgICAgICAgICAgICAgXCJXaGF0IGRvIHlvdSBjYWxsIGEgY29tcHV0ZXIgdGhhdCBzaW5ncz8gQSBEZWxsIVwiLFxuICAgICAgICAgICAgICAgICAgICAgICAgXCJXaHkgd2FzIHRoZSBKYXZhU2NyaXB0IGRldmVsb3BlciBzYWQ/IEJlY2F1c2UgaGUgZGlkbid0IE5vZGUgaG93IHRvIEV4cHJlc3MgaGltc2VsZiFcIixcbiAgICAgICAgICAgICAgICAgICAgICAgIFwiSG93IG1hbnkgcHJvZ3JhbW1lcnMgZG9lcyBpdCB0YWtlIHRvIGNoYW5nZSBhIGxpZ2h0IGJ1bGI/IE5vbmUsIHRoYXQncyBhIGhhcmR3YXJlIHByb2JsZW0hXCJcbiAgICAgICAgICAgICAgICAgICAgXTtcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIGpva2VzW01hdGguZmxvb3IoTWF0aC5yYW5kb20oKSAqIGpva2VzLmxlbmd0aCldO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBpZiAoLyhuZW9ufGdsb3cpL2kudGVzdChsb3dlcklucHV0KSkge1xuICAgICAgICAgICAgICAgICAgICByZXR1cm4gXCJOZW9uIGxpZ2h0cyBhcmUgYXdlc29tZSEgVGhleSBtYWtlIGV2ZXJ5dGhpbmcgbG9vayBmdXR1cmlzdGljIGFuZCBjeWJlcnB1bmsuXCI7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGlmICgvKHJlYWN0fHRhaWx3aW5kfG5vZGV8bW9uZ29kYikvaS50ZXN0KGxvd2VySW5wdXQpKSB7XG4gICAgICAgICAgICAgICAgICAgIHJldHVybiBcIlRoaXMgY2hhdGJvdCBpcyBidWlsdCB3aXRoIFJlYWN0LmpzIGZvciB0aGUgVUksIFRhaWx3aW5kIENTUyBmb3Igc3R5bGluZywgYW5kIHNpbXVsYXRlcyBOb2RlLmpzIGFuZCBNb25nb0RCIGZ1bmN0aW9uYWxpdHkuIENvb2wsIHJpZ2h0P1wiO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBpZiAoLyhsb3ZlfGxpa2UpL2kudGVzdChsb3dlcklucHV0KSkge1xuICAgICAgICAgICAgICAgICAgICByZXR1cm4gXCJJJ20ganVzdCBhIGNoYXRib3QsIGJ1dCBJIGFwcHJlY2lhdGUgdGhlIHNlbnRpbWVudCEgSG93IGNhbiBJIGhlbHAgeW91P1wiO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAvLyBEZWZhdWx0IHJlc3BvbnNlXG4gICAgICAgICAgICAgICAgY29uc3QgcmVzcG9uc2VzID0gW1xuICAgICAgICAgICAgICAgICAgICBcIlRoYXQncyBpbnRlcmVzdGluZyEgVGVsbCBtZSBtb3JlLlwiLFxuICAgICAgICAgICAgICAgICAgICBcIkkgdW5kZXJzdGFuZC4gSG93IGNhbiBJIGFzc2lzdCB5b3UgZnVydGhlcj9cIixcbiAgICAgICAgICAgICAgICAgICAgXCJJIHNlZS4gSXMgdGhlcmUgYW55dGhpbmcgc3BlY2lmaWMgeW91J2QgbGlrZSB0byBrbm93P1wiLFxuICAgICAgICAgICAgICAgICAgICBcIkZhc2NpbmF0aW5nISBXaGF0IGVsc2UgY2FuIEkgaGVscCB5b3Ugd2l0aD9cIixcbiAgICAgICAgICAgICAgICAgICAgXCJUaGFua3MgZm9yIHNoYXJpbmchIEhvdyBjYW4gSSBiZSBvZiBzZXJ2aWNlP1wiXG4gICAgICAgICAgICAgICAgXTtcbiAgICAgICAgICAgICAgICByZXR1cm4gcmVzcG9uc2VzW01hdGguZmxvb3IoTWF0aC5yYW5kb20oKSAqIHJlc3BvbnNlcy5sZW5ndGgpXTtcbiAgICAgICAgICAgIH07XG4gICAgICAgICAgICBcbiAgICAgICAgICAgIGNvbnN0IGhhbmRsZUtleVByZXNzID0gKGUpID0+IHtcbiAgICAgICAgICAgICAgICBpZiAoZS5rZXkgPT09IFwiRW50ZXJcIikge1xuICAgICAgICAgICAgICAgICAgICBoYW5kbGVTZW5kTWVzc2FnZSgpO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgIH07XG4gICAgICAgICAgICBcbiAgICAgICAgICAgIGNvbnN0IHRvZ2dsZUNoYXQgPSAoKSA9PiB7XG4gICAgICAgICAgICAgICAgc2V0SXNPcGVuKCFpc09wZW4pO1xuICAgICAgICAgICAgfTtcbiAgICAgICAgICAgIFxuICAgICAgICAgICAgcmV0dXJuIChcbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZpeGVkIGluc2V0LTAgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgei01MFwiPlxuICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT17YHctZnVsbCBtYXgtdy1tZCB0cmFuc2Zvcm0gdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMzAwICR7aXNPcGVuID8gJ3NjYWxlLTEwMCcgOiAnc2NhbGUtMCd9YH0+XG4gICAgICAgICAgICAgICAgICAgICAgICB7LyogQ2hhdGJvdCBIZWFkZXIgKi99XG4gICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cIm5lb24tZ2xvdyBiZy1bdmFyKC0tZGFyay1iZyldIHJvdW5kZWQtdC0yeGwgcC00IGZsZXgganVzdGlmeS1iZXR3ZWVuIGl0ZW1zLWNlbnRlclwiPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXJcIj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJ3LTMgaC0zIHJvdW5kZWQtZnVsbCBiZy1bdmFyKC0tbmVvbi1ibHVlKV0gbXItMiBwdWxzZVwiPjwvZGl2PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8aDIgY2xhc3NOYW1lPVwibmVvbi10ZXh0IHRleHQteGwgZm9udC1ib2xkXCI+TmVvbiBBc3Npc3RhbnQ8L2gyPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBzcGFjZS14LTJcIj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGJ1dHRvbiBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG9uQ2xpY2s9e3RvZ2dsZUNoYXR9XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJuZW9uLWJ1dHRvbiB3LTggaC04IHJvdW5kZWQtZnVsbCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciB0ZXh0LXNtXCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgX1xuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2J1dHRvbj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGJ1dHRvbiBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG9uQ2xpY2s9eygpID0+IHNldElzT3BlbihmYWxzZSl9XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJuZW9uLWJ1dHRvbiB3LTggaC04IHJvdW5kZWQtZnVsbCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciB0ZXh0LXNtXCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgw5dcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9idXR0b24+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgey8qIENoYXQgTWVzc2FnZXMgQ29udGFpbmVyICovfVxuICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICByZWY9e21lc3NhZ2VDb250YWluZXJSZWZ9XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgY2xhc3NOYW1lPVwibWVzc2FnZS1jb250YWluZXIgYmctWyMwZDBkMjRdIGgtOTYgb3ZlcmZsb3cteS1hdXRvIHAtNCBzcGFjZS15LTNcIlxuICAgICAgICAgICAgICAgICAgICAgICAgPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIHttZXNzYWdlcy5tYXAoKG1lc3NhZ2UpID0+IChcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGtleT17bWVzc2FnZS5pZH1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT17YHAtMyByb3VuZGVkLWxnIG1heC13LVs4MCVdICR7XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbWVzc2FnZS5zZW5kZXIgPT09IFwidXNlclwiIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA/IFwidXNlci1tZXNzYWdlIG1sLWF1dG9cIiBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgOiBcImJvdC1tZXNzYWdlXCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH1gfVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInRleHQtc20gb3BhY2l0eS04MCBtYi0xXCI+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAge21lc3NhZ2Uuc2VuZGVyID09PSBcImJvdFwiID8gXCJOZW9uIEJvdFwiIDogXCJZb3VcIn1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdj57bWVzc2FnZS50ZXh0fTwvZGl2PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJ0ZXh0LXhzIG9wYWNpdHktNjAgbXQtMSB0ZXh0LXJpZ2h0XCI+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAge21lc3NhZ2UudGltZXN0YW1wLnRvTG9jYWxlVGltZVN0cmluZyhbXSwgeyBob3VyOiAnMi1kaWdpdCcsIG1pbnV0ZTogJzItZGlnaXQnIH0pfVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICkpfVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtpc1R5cGluZyAmJiAoXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiYm90LW1lc3NhZ2UgcC0zIHJvdW5kZWQtbGcgbWF4LXctWzUwJV1cIj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidGV4dC1zbSBvcGFjaXR5LTgwIG1iLTJcIj5OZW9uIEJvdDwvZGl2PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJ0eXBpbmctaW5kaWNhdG9yXCI+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4+PC9zcGFuPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuPjwvc3Bhbj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3Bhbj48L3NwYW4+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgKX1cbiAgICAgICAgICAgICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICB7LyogSW5wdXQgQXJlYSAqL31cbiAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwibmVvbi1ib3JkZXIgYmctW3ZhcigtLWRhcmstYmcpXSByb3VuZGVkLWItMnhsIHAtMyBmbGV4XCI+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgPGlucHV0XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHR5cGU9XCJ0ZXh0XCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdmFsdWU9e2lucHV0VmFsdWV9XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0SW5wdXRWYWx1ZShlLnRhcmdldC52YWx1ZSl9XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG9uS2V5UHJlc3M9e2hhbmRsZUtleVByZXNzfVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwbGFjZWhvbGRlcj1cIlR5cGUgeW91ciBtZXNzYWdlLi4uXCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY2xhc3NOYW1lPVwiZmxleC0xIGJnLXRyYW5zcGFyZW50IGJvcmRlci0wIHRleHQtd2hpdGUgcGxhY2Vob2xkZXItZ3JheS01MDAgZm9jdXM6b3V0bGluZS1ub25lIHB4LTNcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIC8+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgPGJ1dHRvblxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBvbkNsaWNrPXtoYW5kbGVTZW5kTWVzc2FnZX1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGlzYWJsZWQ9e2lucHV0VmFsdWUudHJpbSgpID09PSBcIlwifVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJuZW9uLWJ1dHRvbiBweC00IHB5LTIgcm91bmRlZC1sZyBmb250LW1lZGl1bSBkaXNhYmxlZDpvcGFjaXR5LTUwXCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNlbmRcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2J1dHRvbj5cbiAgICAgICAgICAgICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgIHsvKiBDbG9zZWQgU3RhdGUgKi99XG4gICAgICAgICAgICAgICAgICAgIHshaXNPcGVuICYmIChcbiAgICAgICAgICAgICAgICAgICAgICAgIDxidXR0b24gXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgb25DbGljaz17dG9nZ2xlQ2hhdH1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJuZW9uLWJ1dHRvbiBuZW9uLWdsb3cgcHgtNiBweS0zIHJvdW5kZWQtZnVsbCB0ZXh0LWxnIGZvbnQtYm9sZCB0cmFuc2Zvcm0gaG92ZXI6c2NhbGUtMTEwIHRyYW5zaXRpb24tdHJhbnNmb3JtXCJcbiAgICAgICAgICAgICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyXCI+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidy0zIGgtMyByb3VuZGVkLWZ1bGwgYmctW3ZhcigtLW5lb24tYmx1ZSldIG1yLTIgcHVsc2VcIj48L2Rpdj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ2hhdCB3aXRoIE5lb24gQXNzaXN0YW50XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgICAgICAgICAgICA8L2J1dHRvbj5cbiAgICAgICAgICAgICAgICAgICAgKX1cbiAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICk7XG4gICAgICAgIH07XG4gICAgICAgIFxuICAgICAgICBjb25zdCBBcHAgPSAoKSA9PiB7XG4gICAgICAgICAgICByZXR1cm4gKFxuICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidGV4dC1jZW50ZXJcIj5cbiAgICAgICAgICAgICAgICAgICAgPGgxIGNsYXNzTmFtZT1cInRleHQtNHhsIG1kOnRleHQtNnhsIGZvbnQtYm9sZCBtYi00IG5lb24tdGV4dFwiPlxuICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC1bdmFyKC0tbmVvbi1ibHVlKV1cIj5OZW9uPC9zcGFuPiBDaGF0Ym90XG4gICAgICAgICAgICAgICAgICAgIDwvaDE+XG4gICAgICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQteGwgdGV4dC1ncmF5LTQwMCBtYi04XCI+XG4gICAgICAgICAgICAgICAgICAgICAgICBFeHBlcmllbmNlIHRoZSBmdXR1cmUgb2YgY29udmVyc2F0aW9uXG4gICAgICAgICAgICAgICAgICAgIDwvcD5cbiAgICAgICAgICAgICAgICAgICAgPE5lb25DaGF0Ym90IC8+XG4gICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwibXQtOCB0ZXh0LWdyYXktNjAwXCI+XG4gICAgICAgICAgICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9XCJtYi0yXCI+QnVpbHQgd2l0aCBSZWFjdC5qcywgVGFpbHdpbmQgQ1NTLCBhbmQgc2ltdWxhdGVkIE5vZGUuanMgKyBNb25nb0RCPC9wPlxuICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGp1c3RpZnktY2VudGVyIHNwYWNlLXgtNFwiPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwicHgtNCBweS0yIGJnLVsjNjFEQkZCXSBiZy1vcGFjaXR5LTEwIHRleHQtWyM2MURCRkJdIHJvdW5kZWQtbGdcIj5SZWFjdC5qczwvZGl2PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwicHgtNCBweS0yIGJnLVsjMzhCREY4XSBiZy1vcGFjaXR5LTEwIHRleHQtWyMzOEJERjhdIHJvdW5kZWQtbGdcIj5UYWlsd2luZCBDU1M8L2Rpdj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInB4LTQgcHktMiBiZy1bIzY4QTA2M10gYmctb3BhY2l0eS0xMCB0ZXh0LVsjNjhBMDYzXSByb3VuZGVkLWxnXCI+Tm9kZS5qczwvZGl2PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwicHgtNCBweS0yIGJnLVsjNERCMzNEXSBiZy1vcGFjaXR5LTEwIHRleHQtWyM0REIzM0RdIHJvdW5kZWQtbGdcIj5Nb25nb0RCPC9kaXY+XG4gICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICApO1xuICAgICAgICB9O1xuICAgICAgICBcbiAgICAgICAgY29uc3Qgcm9vdEVsZW1lbnQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncm9vdCcpO1xuICAgICAgICBjb25zdCByb290ID0gUmVhY3RET00uY3JlYXRlUm9vdChyb290RWxlbWVudCk7XG4gICAgICAgIHJvb3QucmVuZGVyKDxBcHAgLz4pO1xuICAgICJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBQ1EsSUFBQUEsTUFBQSxHQUF3Q0MsS0FBSztFQUFyQ0MsUUFBUSxHQUFBRixNQUFBLENBQVJFLFFBQVE7RUFBRUMsU0FBUyxHQUFBSCxNQUFBLENBQVRHLFNBQVM7RUFBRUMsTUFBTSxHQUFBSixNQUFB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</script></head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div id="root" class="w-full max-w-2xl"><div class="text-center"><h1 class="text-4xl md:text-6xl font-bold mb-4 neon-text"><span class="text-[var(--neon-blue)]">Neon</span> Chatbot</h1><p class="text-xl text-gray-400 mb-8">Experience the future of conversation</p><div class="fixed inset-0 flex items-center justify-center z-50"><div class="w-full max-w-md transform transition-all duration-300 scale-100"><div class="neon-glow bg-[var(--dark-bg)] rounded-t-2xl p-4 flex justify-between items-center"><div class="flex items-center"><div class="w-3 h-3 rounded-full bg-[var(--neon-blue)] mr-2 pulse"></div><h2 class="neon-text text-xl font-bold">Neon Assistant</h2></div><div class="flex space-x-2"><button class="neon-button w-8 h-8 rounded-full flex items-center justify-center text-sm">_</button><button class="neon-button w-8 h-8 rounded-full flex items-center justify-center text-sm">×</button></div></div><div class="message-container bg-[#0d0d24] h-96 overflow-y-auto p-4 space-y-3"><div class="p-3 rounded-lg max-w-[80%] bot-message"><div class="text-sm opacity-80 mb-1">Neon Bot</div><div>Hello! I'm your Neon Assistant. How can I help you today?</div><div class="text-xs opacity-60 mt-1 text-right">12:15 am</div></div><div class="p-3 rounded-lg max-w-[80%] user-message ml-auto"><div class="text-sm opacity-80 mb-1">You</div><div>hy</div><div class="text-xs opacity-60 mt-1 text-right">12:15 am</div></div><div class="p-3 rounded-lg max-w-[80%] bot-message"><div class="text-sm opacity-80 mb-1">Neon Bot</div><div>Fascinating! What else can I help you with?</div><div class="text-xs opacity-60 mt-1 text-right">12:15 am</div></div><div class="p-3 rounded-lg max-w-[80%] user-message ml-auto"><div class="text-sm opacity-80 mb-1">You</div><div>what is india</div><div class="text-xs opacity-60 mt-1 text-right">12:15 am</div></div><div class="p-3 rounded-lg max-w-[80%] bot-message"><div class="text-sm opacity-80 mb-1">Neon Bot</div><div>That's interesting! Tell me more.</div><div class="text-xs opacity-60 mt-1 text-right">12:15 am</div></div><div class="p-3 rounded-lg max-w-[80%] user-message ml-auto"><div class="text-sm opacity-80 mb-1">You</div><div>how r you</div><div class="text-xs opacity-60 mt-1 text-right">12:16 am</div></div><div class="p-3 rounded-lg max-w-[80%] bot-message"><div class="text-sm opacity-80 mb-1">Neon Bot</div><div>I see. Is there anything specific you'd like to know?</div><div class="text-xs opacity-60 mt-1 text-right">12:16 am</div></div><div class="p-3 rounded-lg max-w-[80%] user-message ml-auto"><div class="text-sm opacity-80 mb-1">You</div><div>yes i want to know about ai</div><div class="text-xs opacity-60 mt-1 text-right">12:16 am</div></div><div class="p-3 rounded-lg max-w-[80%] bot-message"><div class="text-sm opacity-80 mb-1">Neon Bot</div><div>Fascinating! What else can I help you with?</div><div class="text-xs opacity-60 mt-1 text-right">12:16 am</div></div></div><div class="neon-border bg-[var(--dark-bg)] rounded-b-2xl p-3 flex"><input type="text" placeholder="Type your message..." class="flex-1 bg-transparent border-0 text-white placeholder-gray-500 focus:outline-none px-3" value=""><button class="neon-button px-4 py-2 rounded-lg font-medium disabled:opacity-50" disabled="">Send</button></div></div></div><div class="mt-8 text-gray-600"><p class="mb-2">Built with React.js, Tailwind CSS, and simulated Node.js + MongoDB</p><div class="flex justify-center space-x-4"><div class="px-4 py-2 bg-[#61DBFB] bg-opacity-10 text-[#61DBFB] rounded-lg">React.js</div><div class="px-4 py-2 bg-[#38BDF8] bg-opacity-10 text-[#38BDF8] rounded-lg">Tailwind CSS</div><div class="px-4 py-2 bg-[#68A063] bg-opacity-10 text-[#68A063] rounded-lg">Node.js</div><div class="px-4 py-2 bg-[#4DB33D] bg-opacity-10 text-[#4DB33D] rounded-lg">MongoDB</div></div></div></div></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        
+        // Simulated MongoDB data store
+        const db = {
+            users: [
+                { id: 1, name: "Neon Bot" }
+            ],
+            conversations: [],
+            saveConversation: function(conversation) {
+                this.conversations.push(conversation);
+                console.log("Saved to simulated DB:", conversation);
+            }
+        };
+        
+        const NeonChatbot = () => {
+            const [messages, setMessages] = useState([
+                { id: 1, text: "Hello! I'm your Neon Assistant. How can I help you today?", sender: "bot", timestamp: new Date() }
+            ]);
+            const [inputValue, setInputValue] = useState("");
+            const [isOpen, setIsOpen] = useState(true);
+            const [isTyping, setIsTyping] = useState(false);
+            const messageContainerRef = useRef(null);
+            
+            // Auto-scroll to bottom when new messages are added
+            useEffect(() => {
+                if (messageContainerRef.current) {
+                    messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+                }
+            }, [messages, isTyping]);
+            
+            const handleSendMessage = () => {
+                if (inputValue.trim() === "") return;
+                
+                // Add user message
+                const userMessage = {
+                    id: messages.length + 1,
+                    text: inputValue,
+                    sender: "user",
+                    timestamp: new Date()
+                };
+                
+                const updatedMessages = [...messages, userMessage];
+                setMessages(updatedMessages);
+                setInputValue("");
+                
+                // Simulate typing
+                setIsTyping(true);
+                
+                // Simulate server processing delay
+                setTimeout(() => {
+                    // Generate bot response
+                    const botResponse = generateResponse(inputValue);
+                    
+                    const botMessage = {
+                        id: updatedMessages.length + 1,
+                        text: botResponse,
+                        sender: "bot",
+                        timestamp: new Date()
+                    };
+                    
+                    setMessages([...updatedMessages, botMessage]);
+                    setIsTyping(false);
+                    
+                    // Save to simulated database
+                    const conversation = {
+                        user: "Guest",
+                        messages: [...updatedMessages, botMessage],
+                        timestamp: new Date()
+                    };
+                    db.saveConversation(conversation);
+                }, 1500);
+            };
+            
+            const generateResponse = (input) => {
+                // Convert input to lowercase for easier matching
+                const lowerInput = input.toLowerCase();
+                
+                // Keyword-based responses using regex
+                if (/(hello|hi|hey|greetings)/i.test(lowerInput)) {
+                    return "Hello there! How can I assist you today?";
+                }
+                if (/(how are you|how's it going)/i.test(lowerInput)) {
+                    return "I'm just a bot, but I'm functioning perfectly! Thanks for asking!";
+                }
+                if (/(name|who are you)/i.test(lowerInput)) {
+                    return "I'm Neon Bot, your futuristic assistant with a glowing personality!";
+                }
+                if (/(help|support|problem)/i.test(lowerInput)) {
+                    return "I can help with information, answering questions, or just chatting! What do you need?";
+                }
+                if (/(thank|thanks|appreciate)/i.test(lowerInput)) {
+                    return "You're welcome! Is there anything else I can help with?";
+                }
+                if (/(bye|goodbye|see you)/i.test(lowerInput)) {
+                    return "Goodbye! Feel free to return anytime for more neon-powered assistance!";
+                }
+                if (/(time|what time)/i.test(lowerInput)) {
+                    return `The current time is ${new Date().toLocaleTimeString()}.`;
+                }
+                if (/(date|today)/i.test(lowerInput)) {
+                    return `Today is ${new Date().toLocaleDateString()}.`;
+                }
+                if (/(weather|temperature)/i.test(lowerInput)) {
+                    return "I'm a chatbot, not a weather service! But I can tell you it's always cool in cyberspace.";
+                }
+                if (/(joke|funny)/i.test(lowerInput)) {
+                    const jokes = [
+                        "Why do programmers prefer dark mode? Because light attracts bugs!",
+                        "What do you call a computer that sings? A Dell!",
+                        "Why was the JavaScript developer sad? Because he didn't Node how to Express himself!",
+                        "How many programmers does it take to change a light bulb? None, that's a hardware problem!"
+                    ];
+                    return jokes[Math.floor(Math.random() * jokes.length)];
+                }
+                if (/(neon|glow)/i.test(lowerInput)) {
+                    return "Neon lights are awesome! They make everything look futuristic and cyberpunk.";
+                }
+                if (/(react|tailwind|node|mongodb)/i.test(lowerInput)) {
+                    return "This chatbot is built with React.js for the UI, Tailwind CSS for styling, and simulates Node.js and MongoDB functionality. Cool, right?";
+                }
+                if (/(love|like)/i.test(lowerInput)) {
+                    return "I'm just a chatbot, but I appreciate the sentiment! How can I help you?";
+                }
+                
+                // Default response
+                const responses = [
+                    "That's interesting! Tell me more.",
+                    "I understand. How can I assist you further?",
+                    "I see. Is there anything specific you'd like to know?",
+                    "Fascinating! What else can I help you with?",
+                    "Thanks for sharing! How can I be of service?"
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            };
+            
+            const handleKeyPress = (e) => {
+                if (e.key === "Enter") {
+                    handleSendMessage();
+                }
+            };
+            
+            const toggleChat = () => {
+                setIsOpen(!isOpen);
+            };
+            
+            return (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className={`w-full max-w-md transform transition-all duration-300 ${isOpen ? 'scale-100' : 'scale-0'}`}>
+                        {/* Chatbot Header */}
+                        <div className="neon-glow bg-[var(--dark-bg)] rounded-t-2xl p-4 flex justify-between items-center">
+                            <div className="flex items-center">
+                                <div className="w-3 h-3 rounded-full bg-[var(--neon-blue)] mr-2 pulse"></div>
+                                <h2 className="neon-text text-xl font-bold">Neon Assistant</h2>
+                            </div>
+                            <div className="flex space-x-2">
+                                <button 
+                                    onClick={toggleChat}
+                                    className="neon-button w-8 h-8 rounded-full flex items-center justify-center text-sm"
+                                >
+                                    _
+                                </button>
+                                <button 
+                                    onClick={() => setIsOpen(false)}
+                                    className="neon-button w-8 h-8 rounded-full flex items-center justify-center text-sm"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        </div>
+                        
+                        {/* Chat Messages Container */}
+                        <div 
+                            ref={messageContainerRef}
+                            className="message-container bg-[#0d0d24] h-96 overflow-y-auto p-4 space-y-3"
+                        >
+                            {messages.map((message) => (
+                                <div 
+                                    key={message.id}
+                                    className={`p-3 rounded-lg max-w-[80%] ${
+                                        message.sender === "user" 
+                                            ? "user-message ml-auto" 
+                                            : "bot-message"
+                                    }`}
+                                >
+                                    <div className="text-sm opacity-80 mb-1">
+                                        {message.sender === "bot" ? "Neon Bot" : "You"}
+                                    </div>
+                                    <div>{message.text}</div>
+                                    <div className="text-xs opacity-60 mt-1 text-right">
+                                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    </div>
+                                </div>
+                            ))}
+                            
+                            {isTyping && (
+                                <div className="bot-message p-3 rounded-lg max-w-[50%]">
+                                    <div className="text-sm opacity-80 mb-2">Neon Bot</div>
+                                    <div className="typing-indicator">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        
+                        {/* Input Area */}
+                        <div className="neon-border bg-[var(--dark-bg)] rounded-b-2xl p-3 flex">
+                            <input
+                                type="text"
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                onKeyPress={handleKeyPress}
+                                placeholder="Type your message..."
+                                className="flex-1 bg-transparent border-0 text-white placeholder-gray-500 focus:outline-none px-3"
+                            />
+                            <button
+                                onClick={handleSendMessage}
+                                disabled={inputValue.trim() === ""}
+                                className="neon-button px-4 py-2 rounded-lg font-medium disabled:opacity-50"
+                            >
+                                Send
+                            </button>
+                        </div>
+                    </div>
+                    
+                    {/* Closed State */}
+                    {!isOpen && (
+                        <button 
+                            onClick={toggleChat}
+                            className="neon-button neon-glow px-6 py-3 rounded-full text-lg font-bold transform hover:scale-110 transition-transform"
+                        >
+                            <div className="flex items-center">
+                                <div className="w-3 h-3 rounded-full bg-[var(--neon-blue)] mr-2 pulse"></div>
+                                Chat with Neon Assistant
+                            </div>
+                        </button>
+                    )}
+                </div>
+            );
+        };
+        
+        const App = () => {
+            return (
+                <div className="text-center">
+                    <h1 className="text-4xl md:text-6xl font-bold mb-4 neon-text">
+                        <span className="text-[var(--neon-blue)]">Neon</span> Chatbot
+                    </h1>
+                    <p className="text-xl text-gray-400 mb-8">
+                        Experience the future of conversation
+                    </p>
+                    <NeonChatbot />
+                    <div className="mt-8 text-gray-600">
+                        <p className="mb-2">Built with React.js, Tailwind CSS, and simulated Node.js + MongoDB</p>
+                        <div className="flex justify-center space-x-4">
+                            <div className="px-4 py-2 bg-[#61DBFB] bg-opacity-10 text-[#61DBFB] rounded-lg">React.js</div>
+                            <div className="px-4 py-2 bg-[#38BDF8] bg-opacity-10 text-[#38BDF8] rounded-lg">Tailwind CSS</div>
+                            <div className="px-4 py-2 bg-[#68A063] bg-opacity-10 text-[#68A063] rounded-lg">Node.js</div>
+                            <div className="px-4 py-2 bg-[#4DB33D] bg-opacity-10 text-[#4DB33D] rounded-lg">MongoDB</div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+        
+        const rootElement = document.getElementById('root');
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(<App />);
+    </script>
+
+</body></html>
