@@ -114,17 +114,17 @@ export default function Contact() {
           {[
             {
               icon: <FaGithub />,
-              link: "https://github.com/yourusername",
+              link: "https://github.com/Ranugpt",
               color: "text-gray-700 hover:text-black",
             },
             {
               icon: <FaLinkedin />,
-              link: "https://linkedin.com/in/yourusername",
+              link: "https://www.linkedin.com/in/ranu-gupta-990103289",
               color: "text-blue-600 hover:text-blue-800",
             },
             {
               icon: <FaEnvelope />,
-              link: "mailto:your@email.com",
+              link: "mailto:guptaranu719@gmail.com",
               color: "text-red-500 hover:text-red-700",
             },
           ].map((item, index) => (
